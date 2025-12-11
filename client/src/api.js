@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // 🚀 Đã sửa: Sử dụng biến môi trường cho baseURL, có giá trị dự phòng cho local
-// * Lưu ý: Thay 'REACT_APP_API_URL' bằng tiền tố chính xác của bạn nếu không phải Create React App.
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+// * Lưu ý: Vite sử dụng import.meta.env.VITE_... thay vì process.env
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const api = axios.create({
   baseURL: BASE_URL,
