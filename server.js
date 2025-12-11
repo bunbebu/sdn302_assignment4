@@ -11,6 +11,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Home route
+app.get("/", (req, res) => {
+  res.send("Backend is running! ✔");
+});
+
 // MongoDB connect
 mongoose
   .connect(process.env.MONGO_URI)
