@@ -6,15 +6,20 @@ const Register = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    admin: false
+    confirmPassword: ''
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {//check mật khẩu khớp với mật khẩu mới tạo
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
     try {
-      await api.post('/users/register', formData);
+      const { confirmPassword, ...dataToSend } = formData;
+      await api.post('/users/register', dataToSend);
       alert('Registration successful! Please login.');
       navigate('/login');
     } catch (err) {
@@ -51,15 +56,15 @@ const Register = () => {
                     required
                   />
                 </div>
-                <div className="mb-3 form-check">
+                <div className="mb-3">
+                  <label className="form-label">Confirm Password</label>
                   <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="adminCheck"
-                    checked={formData.admin}
-                    onChange={(e) => setFormData({...formData, admin: e.target.checked})}
+                    type="password"
+                    className="form-control"
+                    value={formData.confirmPassword}
+                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                    required
                   />
-                  <label className="form-check-label" htmlFor="adminCheck">Register as Admin</label>
                 </div>
                 <button type="submit" className="btn btn-primary w-100">Register</button>
               </form>
